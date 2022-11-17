@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.Windows;
 
 namespace OlympicsStatistics.ViewModels
 {
@@ -100,6 +101,12 @@ namespace OlympicsStatistics.ViewModels
         private async Task LoadData()
         {
             await LoadData(SelectedNoc);
+        }
+
+        public async Task AddNew()
+        {
+            await OlympicsController.AddNew();
+            MessageBox.Show("Inserimento completato");
         }
     }
 }

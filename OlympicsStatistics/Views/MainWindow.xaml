@@ -42,6 +42,7 @@
         <StackPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Width="100" Margin="5 0" Click="Button_Click">&lt;</Button>
             <Button Width="100" Margin="5 0" Click="Button_Click_1">&gt;</Button>
+            <Button Width="100" Margin="5 0" Click="Button_Click_2">Aggiungi</Button>
         </StackPanel>
     </Grid>
 </Window>
