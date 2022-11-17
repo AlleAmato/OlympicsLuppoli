@@ -9,7 +9,7 @@ using System.Windows.Media.Media3D;
 
 namespace Olympics.Models
 {
-    internal class Partecipation
+    internal partial class Partecipation
     {
 		public long Id { get; set; }
 		public long IdAthlete { get; set; }

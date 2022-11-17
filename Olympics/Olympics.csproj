@@ -59,6 +59,7 @@
     <Compile Include="Controllers\Partecipations.cs" />
     <Compile Include="Models\PaginatedList.cs" />
     <Compile Include="Models\Partecipation.cs" />
+    <Compile Include="Models\PartecipationsExtension.cs" />
     <Compile Include="ViewModels\PartecipationsViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Page Include="PartecipationsView.xaml">
