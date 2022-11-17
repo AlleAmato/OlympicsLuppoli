@@ -1,0 +1,478 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="OlympicsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="athletes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="IdAthlete" Type="bigint" />
+          <Property Name="Name" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Sex" Type="char" MaxLength="1" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Height" Type="int" />
+          <Property Name="Weight" Type="int" />
+          <Property Name="NOC" Type="char" MaxLength="3" />
+          <Property Name="Games" Type="varchar" MaxLength="200" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Season" Type="varchar" MaxLength="200" />
+          <Property Name="City" Type="varchar" MaxLength="200" />
+          <Property Name="Sport" Type="varchar" MaxLength="200" />
+          <Property Name="Event" Type="varchar" MaxLength="200" />
+          <Property Name="Medal" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="AthletesNF">
+          <Key>
+            <PropertyRef Name="IdAthlete" />
+          </Key>
+          <Property Name="IdAthlete" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Sex" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Height" Type="smallint" />
+          <Property Name="Weight" Type="smallint" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Event" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Sport" Type="varchar" MaxLength="1024" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Games" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Year" Type="smallint" Nullable="false" />
+          <Property Name="Season" Type="varchar" MaxLength="1024" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Medals">
+          <Key>
+            <PropertyRef Name="IdAthlete" />
+            <PropertyRef Name="IdGame" />
+            <PropertyRef Name="IdEvent" />
+            <PropertyRef Name="Medal" />
+          </Key>
+          <Property Name="IdAthlete" Type="int" Nullable="false" />
+          <Property Name="IdGame" Type="int" Nullable="false" />
+          <Property Name="IdEvent" Type="int" Nullable="false" />
+          <Property Name="Medal" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Partecipations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IdAthlete" Type="int" Nullable="false" />
+          <Property Name="Age" Type="smallint" />
+          <Property Name="NOC" Type="char" MaxLength="3" />
+          <Property Name="IdGame" Type="int" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="IdEvent" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Medals__IdAthlet__5441852A">
+          <End Role="AthletesNF" Type="Self.AthletesNF" Multiplicity="1" />
+          <End Role="Medals" Type="Self.Medals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AthletesNF">
+              <PropertyRef Name="IdAthlete" />
+            </Principal>
+            <Dependent Role="Medals">
+              <PropertyRef Name="IdAthlete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Medals__IdEvent__5629CD9C">
+          <End Role="Events" Type="Self.Events" Multiplicity="1" />
+          <End Role="Medals" Type="Self.Medals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Medals">
+              <PropertyRef Name="IdEvent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Medals__IdGame__5535A963">
+          <End Role="Games" Type="Self.Games" Multiplicity="1" />
+          <End Role="Medals" Type="Self.Medals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Medals">
+              <PropertyRef Name="IdGame" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__IdAth__4F7CD00D">
+          <End Role="AthletesNF" Type="Self.AthletesNF" Multiplicity="1" />
+          <End Role="Partecipations" Type="Self.Partecipations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AthletesNF">
+              <PropertyRef Name="IdAthlete" />
+            </Principal>
+            <Dependent Role="Partecipations">
+              <PropertyRef Name="IdAthlete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__IdEve__5165187F">
+          <End Role="Events" Type="Self.Events" Multiplicity="1" />
+          <End Role="Partecipations" Type="Self.Partecipations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Partecipations">
+              <PropertyRef Name="IdEvent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__IdGam__5070F446">
+          <End Role="Games" Type="Self.Games" Multiplicity="1" />
+          <End Role="Partecipations" Type="Self.Partecipations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Partecipations">
+              <PropertyRef Name="IdGame" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OlympicsModelStoreContainer">
+          <EntitySet Name="athletes" EntityType="Self.athletes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AthletesNF" EntityType="Self.AthletesNF" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Games" EntityType="Self.Games" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medals" EntityType="Self.Medals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partecipations" EntityType="Self.Partecipations" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Medals__IdAthlet__5441852A" Association="Self.FK__Medals__IdAthlet__5441852A">
+            <End Role="AthletesNF" EntitySet="AthletesNF" />
+            <End Role="Medals" EntitySet="Medals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Medals__IdEvent__5629CD9C" Association="Self.FK__Medals__IdEvent__5629CD9C">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Medals" EntitySet="Medals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Medals__IdGame__5535A963" Association="Self.FK__Medals__IdGame__5535A963">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Medals" EntitySet="Medals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__IdAth__4F7CD00D" Association="Self.FK__Partecipa__IdAth__4F7CD00D">
+            <End Role="AthletesNF" EntitySet="AthletesNF" />
+            <End Role="Partecipations" EntitySet="Partecipations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__IdEve__5165187F" Association="Self.FK__Partecipa__IdEve__5165187F">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Partecipations" EntitySet="Partecipations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__IdGam__5070F446" Association="Self.FK__Partecipa__IdGam__5070F446">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Partecipations" EntitySet="Partecipations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OlympicsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="athlete">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="IdAthlete" Type="Int64" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Height" Type="Int32" />
+          <Property Name="Weight" Type="Int32" />
+          <Property Name="NOC" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Games" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Season" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Sport" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Event" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Medal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AthletesNF">
+          <Key>
+            <PropertyRef Name="IdAthlete" />
+          </Key>
+          <Property Name="IdAthlete" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Height" Type="Int16" />
+          <Property Name="Weight" Type="Int16" />
+          <NavigationProperty Name="Medals" Relationship="Self.FK__Medals__IdAthlet__5441852A" FromRole="AthletesNF" ToRole="Medals" />
+          <NavigationProperty Name="Partecipations" Relationship="Self.FK__Partecipa__IdAth__4F7CD00D" FromRole="AthletesNF" ToRole="Partecipations" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Event1" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sport" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Medals" Relationship="Self.FK__Medals__IdEvent__5629CD9C" FromRole="Events" ToRole="Medals" />
+          <NavigationProperty Name="Partecipations" Relationship="Self.FK__Partecipa__IdEve__5165187F" FromRole="Events" ToRole="Partecipations" />
+        </EntityType>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Games" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Year" Type="Int16" Nullable="false" />
+          <Property Name="Season" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Medals" Relationship="Self.FK__Medals__IdGame__5535A963" FromRole="Games" ToRole="Medals" />
+          <NavigationProperty Name="Partecipations" Relationship="Self.FK__Partecipa__IdGam__5070F446" FromRole="Games" ToRole="Partecipations" />
+        </EntityType>
+        <EntityType Name="Medal">
+          <Key>
+            <PropertyRef Name="IdAthlete" />
+            <PropertyRef Name="IdGame" />
+            <PropertyRef Name="IdEvent" />
+            <PropertyRef Name="Medal1" />
+          </Key>
+          <Property Name="IdAthlete" Type="Int32" Nullable="false" />
+          <Property Name="IdGame" Type="Int32" Nullable="false" />
+          <Property Name="IdEvent" Type="Int32" Nullable="false" />
+          <Property Name="Medal1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="AthletesNF" Relationship="Self.FK__Medals__IdAthlet__5441852A" FromRole="Medals" ToRole="AthletesNF" />
+          <NavigationProperty Name="Event" Relationship="Self.FK__Medals__IdEvent__5629CD9C" FromRole="Medals" ToRole="Events" />
+          <NavigationProperty Name="Game" Relationship="Self.FK__Medals__IdGame__5535A963" FromRole="Medals" ToRole="Games" />
+        </EntityType>
+        <EntityType Name="Partecipation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdAthlete" Type="Int32" Nullable="false" />
+          <Property Name="Age" Type="Int16" />
+          <Property Name="NOC" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="IdGame" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdEvent" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AthletesNF" Relationship="Self.FK__Partecipa__IdAth__4F7CD00D" FromRole="Partecipations" ToRole="AthletesNF" />
+          <NavigationProperty Name="Event" Relationship="Self.FK__Partecipa__IdEve__5165187F" FromRole="Partecipations" ToRole="Events" />
+          <NavigationProperty Name="Game" Relationship="Self.FK__Partecipa__IdGam__5070F446" FromRole="Partecipations" ToRole="Games" />
+        </EntityType>
+        <Association Name="FK__Medals__IdAthlet__5441852A">
+          <End Role="AthletesNF" Type="Self.AthletesNF" Multiplicity="1" />
+          <End Role="Medals" Type="Self.Medal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AthletesNF">
+              <PropertyRef Name="IdAthlete" />
+            </Principal>
+            <Dependent Role="Medals">
+              <PropertyRef Name="IdAthlete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__IdAth__4F7CD00D">
+          <End Role="AthletesNF" Type="Self.AthletesNF" Multiplicity="1" />
+          <End Role="Partecipations" Type="Self.Partecipation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AthletesNF">
+              <PropertyRef Name="IdAthlete" />
+            </Principal>
+            <Dependent Role="Partecipations">
+              <PropertyRef Name="IdAthlete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Medals__IdEvent__5629CD9C">
+          <End Role="Events" Type="Self.Event" Multiplicity="1" />
+          <End Role="Medals" Type="Self.Medal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Medals">
+              <PropertyRef Name="IdEvent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__IdEve__5165187F">
+          <End Role="Events" Type="Self.Event" Multiplicity="1" />
+          <End Role="Partecipations" Type="Self.Partecipation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Partecipations">
+              <PropertyRef Name="IdEvent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Medals__IdGame__5535A963">
+          <End Role="Games" Type="Self.Game" Multiplicity="1" />
+          <End Role="Medals" Type="Self.Medal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Medals">
+              <PropertyRef Name="IdGame" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__IdGam__5070F446">
+          <End Role="Games" Type="Self.Game" Multiplicity="1" />
+          <End Role="Partecipations" Type="Self.Partecipation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Games">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Partecipations">
+              <PropertyRef Name="IdGame" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OlympicsContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="athletes" EntityType="Self.athlete" />
+          <EntitySet Name="AthletesNFs" EntityType="Self.AthletesNF" />
+          <EntitySet Name="Events" EntityType="Self.Event" />
+          <EntitySet Name="Games" EntityType="Self.Game" />
+          <EntitySet Name="Medals" EntityType="Self.Medal" />
+          <EntitySet Name="Partecipations" EntityType="Self.Partecipation" />
+          <AssociationSet Name="FK__Medals__IdAthlet__5441852A" Association="Self.FK__Medals__IdAthlet__5441852A">
+            <End Role="AthletesNF" EntitySet="AthletesNFs" />
+            <End Role="Medals" EntitySet="Medals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__IdAth__4F7CD00D" Association="Self.FK__Partecipa__IdAth__4F7CD00D">
+            <End Role="AthletesNF" EntitySet="AthletesNFs" />
+            <End Role="Partecipations" EntitySet="Partecipations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Medals__IdEvent__5629CD9C" Association="Self.FK__Medals__IdEvent__5629CD9C">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Medals" EntitySet="Medals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__IdEve__5165187F" Association="Self.FK__Partecipa__IdEve__5165187F">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Partecipations" EntitySet="Partecipations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Medals__IdGame__5535A963" Association="Self.FK__Medals__IdGame__5535A963">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Medals" EntitySet="Medals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__IdGam__5070F446" Association="Self.FK__Partecipa__IdGam__5070F446">
+            <End Role="Games" EntitySet="Games" />
+            <End Role="Partecipations" EntitySet="Partecipations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OlympicsModelStoreContainer" CdmEntityContainer="OlympicsContext">
+          <EntitySetMapping Name="athletes">
+            <EntityTypeMapping TypeName="OlympicsModel.athlete">
+              <MappingFragment StoreEntitySet="athletes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdAthlete" ColumnName="IdAthlete" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="NOC" ColumnName="NOC" />
+                <ScalarProperty Name="Games" ColumnName="Games" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Season" ColumnName="Season" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Sport" ColumnName="Sport" />
+                <ScalarProperty Name="Event" ColumnName="Event" />
+                <ScalarProperty Name="Medal" ColumnName="Medal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AthletesNFs">
+            <EntityTypeMapping TypeName="OlympicsModel.AthletesNF">
+              <MappingFragment StoreEntitySet="AthletesNF">
+                <ScalarProperty Name="IdAthlete" ColumnName="IdAthlete" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="OlympicsModel.Event">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Event1" ColumnName="Event" />
+                <ScalarProperty Name="Sport" ColumnName="Sport" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="OlympicsModel.Game">
+              <MappingFragment StoreEntitySet="Games">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Games" ColumnName="Games" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Season" ColumnName="Season" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medals">
+            <EntityTypeMapping TypeName="OlympicsModel.Medal">
+              <MappingFragment StoreEntitySet="Medals">
+                <ScalarProperty Name="IdAthlete" ColumnName="IdAthlete" />
+                <ScalarProperty Name="IdGame" ColumnName="IdGame" />
+                <ScalarProperty Name="IdEvent" ColumnName="IdEvent" />
+                <ScalarProperty Name="Medal1" ColumnName="Medal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partecipations">
+            <EntityTypeMapping TypeName="OlympicsModel.Partecipation">
+              <MappingFragment StoreEntitySet="Partecipations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdAthlete" ColumnName="IdAthlete" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="NOC" ColumnName="NOC" />
+                <ScalarProperty Name="IdGame" ColumnName="IdGame" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="IdEvent" ColumnName="IdEvent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
