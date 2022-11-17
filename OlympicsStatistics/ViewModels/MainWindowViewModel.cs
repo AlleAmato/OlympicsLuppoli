@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace OlympicsStatistics.ViewModels
 {
@@ -79,16 +80,26 @@ namespace OlympicsStatistics.ViewModels
 
         private async Task InitializeData()
         {
+            string noc = ConfigurationManager.AppSettings["defaultNOC"];
             var t = OlympicsController.getAllNocs();
-            LoadData();
+            LoadData(noc);
+
+
             Nocs = await t;
+            _selectedNoc = noc;
+            NotifyPropertyChanged("SelectedNoc");
+        }
+
+        private async Task LoadData(string noc)
+        {
+            IsDataLoaded = false;
+            Athletes = await OlympicsController.getAthlets(noc, OnlyMedalists, page, pageSize);
+            IsDataLoaded = true;
         }
 
         private async Task LoadData()
         {
-            IsDataLoaded = false;
-            Athletes = await OlympicsController.getAthlets(SelectedNoc, OnlyMedalists, page, pageSize);
-            IsDataLoaded = true;
+            await LoadData(SelectedNoc);
         }
     }
 }
